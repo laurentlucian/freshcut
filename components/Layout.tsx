@@ -7,9 +7,9 @@ type Props = {
   title?: string;
 };
 
-const Layout = ({ children, title = 'Freshcut' }: Props) => {
+const Layout = ({ children, title = 'FreshCut' }: Props) => {
   return (
-    <Flex direction="column" align="center">
+    <Flex direction="column" align="center" py="40px">
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />

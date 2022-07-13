@@ -9,14 +9,20 @@ datasource db {
 
 model User {
   id       Int       @id @default(autoincrement())
-  name     String    @unique
+  username String
+  imageURL String
+  bio      String?
   creator  Boolean   @default(false)
-  posts    Post[]
+  clips    Clip[]
   comments Comment[]
-  replies  Reply[]
+
+  following    User[]    @relation("Follows")
+  followedBy   User[]    @relation("Follows")
+  clipLikes    Clip[]    @relation("ClipLikes")
+  commentLikes Comment[] @relation("CommentLikes")
 }
 
-model Post {
+model Clip {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -24,31 +30,30 @@ model Post {
   videoURL    String
   game        String
   viewCount   Int       @default(0)
-  likeCount   Int       @default(0)
-  author      User?     @relation(fields: [authorId], references: [id])
-  authorId    Int?
-  Comment     Comment[]
+  likes       User[]    @relation("ClipLikes")
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    Int
+  comments    Comment[]
+  tags        Tag[]
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  content   String
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-  post      Post?    @relation(fields: [postId], references: [id])
-  postId    Int?
-  Reply     Reply[]
+  likes     User[]   @relation("CommentLikes")
+
+  content  String
+  author   User?  @relation(fields: [authorId], references: [id])
+  authorId Int?
+  clip     Clip?  @relation(fields: [clipId], references: [id])
+  clipId   Int?
 }
 
-model Reply {
+model Tag {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  content   String
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-  comment   Comment? @relation(fields: [commentId], references: [id])
-  commentId Int?
+  name      String   @unique
+  clips     Clip[]
 }

@@ -5,6 +5,5 @@ export const Button = {
   },
   defaultProps: {
     size: 'sm',
-    colorScheme: 'fresh',
   },
 };

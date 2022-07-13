@@ -1,24 +1,25 @@
 import { extendTheme } from '@chakra-ui/react';
-import { mode, GlobalStyleProps } from '@chakra-ui/theme-tools';
 import { Button } from './components/Button';
 import colors from './colors';
 
 const theme = extendTheme({
-  initialColorMode: 'dark',
-  useSystemColorMode: false,
+  config: {
+    initialColorMode: 'dark',
+    useSystemColorMode: false,
+  },
   styles: {
-    global: (props: GlobalStyleProps) => ({
+    global: {
       body: {
         fontFamily: 'body',
-        color: mode('#000000', '#EEE6E2')(props),
-        bg: mode('#EEE6E2', '#000000')(props),
+        color: '#EEE6E2',
+        bg: '#000000',
         lineHeight: 'base',
       },
       '*::-webkit-scrollbar-track': {
         bg: 'transparent',
       },
       '*::-webkit-scrollbar-thumb': {
-        bg: mode('#f5f5f5', '#3c3941')(props),
+        bg: '#3c3941',
         borderRadius: '10px',
         w: '5px',
         h: '5px',
@@ -28,7 +29,7 @@ const theme = extendTheme({
         w: '5px',
         h: '5px',
       },
-    }),
+    },
   },
   components: {
     Button,
