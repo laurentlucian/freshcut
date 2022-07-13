@@ -6,9 +6,10 @@
   "author": "Lohan",
   "scripts": {
     "dev": "next",
-    "build": "next build & npx prisma migrate dev",
+    "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "db:dev": "yarn prisma migrate dev"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.8",
