@@ -65,6 +65,9 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
 
   const isLiked = data.likes.some((l) => l.id === user?.id);
   const onLike = async () => {
+    isLiked
+      ? mutate({ ...data, likes: [...data.likes.filter((u) => u.id !== user.id)] })
+      : mutate({ ...data, likes: [...data.likes, user] });
     await fetcher(`api/clip/${clip.id}/${isLiked ? 'dislike' : 'like'}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -72,9 +75,6 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
         userId: user.id,
       }),
     });
-    isLiked
-      ? mutate({ ...data, likes: [...data.likes.filter((u) => u.id !== user.id)] })
-      : mutate({ ...data, likes: [...data.likes, user] });
   };
 
   useEffect(() => {

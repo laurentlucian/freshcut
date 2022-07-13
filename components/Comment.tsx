@@ -15,6 +15,7 @@ const Comment = ({ comment }: { comment: CommentWithAuthor }) => {
   }, [user]);
 
   const onLike = async () => {
+    setIsLiked(!isLiked);
     await fetcher(`api/clip/${comment.clipId}/comment/${isLiked ? 'dislike' : 'like'}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -23,7 +24,6 @@ const Comment = ({ comment }: { comment: CommentWithAuthor }) => {
         userId: user.id,
       }),
     });
-    setIsLiked(!isLiked);
   };
   return (
     <HStack align="start">
