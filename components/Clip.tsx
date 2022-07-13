@@ -34,6 +34,7 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
   const isOn = useOnScreen(videoRef, '-500px');
   useEffect(() => {
     isOn ? videoRef.current.play() : videoRef.current.pause();
+    isOn && fetcher(`/api/clip/${clip.id}/add_view`);
   }, [isOn]);
 
   const [inputFocus, setInputFocus] = useState(false);
@@ -76,12 +77,6 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
       }),
     });
   };
-
-  useEffect(() => {
-    // incrementing viewCount on component mount, rather than video progress
-    // runs twice on dev react strict mode
-    fetcher(`/api/clip/${clip.id}/add_view`);
-  }, []);
 
   return (
     <Flex mt="24px">

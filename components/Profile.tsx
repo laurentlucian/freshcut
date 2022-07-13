@@ -62,7 +62,7 @@ const Profile = ({ creator }: { creator: UserWithClips }) => {
             </HStack>
             <HStack>
               <Text>
-                <b>{creator.followedBy.filter((u) => u.id !== user.id).length + (isFollowing ? 1 : 0)}</b> Followers
+                <b>{creator.followedBy.filter((u) => u.id !== user?.id).length + (isFollowing ? 1 : 0)}</b> Followers
               </Text>
               <Text>
                 <b>{views}</b> Views

@@ -9,22 +9,20 @@ import Layout from '../components/Layout';
 import { prisma, UserWithClips } from '../lib/prisma';
 
 const IndexPage = ({ creator }: { creator: UserWithClips }) => {
-  const [, setUser] = useSharedState<User>('user', null);
+  const [user, setUser] = useSharedState<User>('user', null);
 
+  // creating a new user on every new page load
+  // alternatively, I was keeping track of session in the browser's localStorage,
+  // but it caused some bugs and I decided to keep it simpler instead
   useEffect(() => {
-    const existingUser = localStorage.getItem('user');
-    if (existingUser) {
-      setUser(JSON.parse(existingUser));
-      return;
-    }
-
     const create = async () => {
       const newUser = await fetcher('/api/user/new');
       setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
     };
 
-    create().catch(console.error);
+    if (!user) {
+      create().catch(console.error);
+    }
   }, []);
 
   if (!creator)
