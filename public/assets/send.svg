@@ -1,0 +1,8 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" fill="#fff" class="icon icon__send">
+
+  <g>
+    <path id="svg_1"
+      d="m0,0l100,50l-100,50l11.1,-50l-11.1,-50zm17.7,53.6l-7.4,33.1l73.5,-36.7l-73.4,-36.7l7.4,33.1l34.4,0l0,7.2l-34.5,0z"
+      fill="#fff" stroke="white" />
+  </g>
+</svg>

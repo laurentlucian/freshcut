@@ -14,6 +14,20 @@ const theme = extendTheme({
         bg: mode('#EEE6E2', '#000000')(props),
         lineHeight: 'base',
       },
+      '*::-webkit-scrollbar-track': {
+        bg: 'transparent',
+      },
+      '*::-webkit-scrollbar-thumb': {
+        bg: mode('#f5f5f5', '#3c3941')(props),
+        borderRadius: '10px',
+        w: '5px',
+        h: '5px',
+      },
+      '*::-webkit-scrollbar': {
+        bg: 'transparent',
+        w: '5px',
+        h: '5px',
+      },
     }),
   },
   components: {
