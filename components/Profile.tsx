@@ -6,8 +6,8 @@ import { UserWithClips } from 'lib/prisma';
 import { useEffect, useState } from 'react';
 
 const Profile = ({ creator }: { creator: UserWithClips }) => {
-  console.log('creator', creator);
   const [user] = useSharedState<User | null>('user');
+  // I'd prefer using SWR mutation, which includes revalidation after optimistic update
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const views = creator.clips.reduce((acc, clip) => acc + clip.viewCount, 0);
   const likes = creator.clips.reduce((acc, clip) => acc + clip.likes?.length, 0);
@@ -62,7 +62,7 @@ const Profile = ({ creator }: { creator: UserWithClips }) => {
             </HStack>
             <HStack>
               <Text>
-                <b>{creator.followedBy.length}</b> Followers
+                <b>{creator.followedBy.filter((u) => u.id !== user.id).length + (isFollowing ? 1 : 0)}</b> Followers
               </Text>
               <Text>
                 <b>{views}</b> Views

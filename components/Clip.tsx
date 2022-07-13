@@ -136,7 +136,10 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
                 bg="#28262C"
                 _focus={{ borderColor: 'fresh.200' }}
                 onFocus={() => setInputFocus(true)}
-                onBlur={() => setInputFocus(false)}
+                onBlur={() => {
+                  onSend();
+                  setInputFocus(false);
+                }}
               />
               {input.length > 0 && (
                 <InputRightElement w="50px" pr="5px">

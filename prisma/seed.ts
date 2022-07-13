@@ -61,12 +61,12 @@ const userData: Prisma.UserCreateInput[] = [
   {
     username: 'Ravs',
     imageURL: '/assets/avatars/4.png',
-    replies: {
+    comments: {
       create: [
         {
           content:
             'A comment is limited to two lines in the default view and when expanded you’ll be able to see the entire comment in full detail with more information.',
-          comment: {
+          clip: {
             connect: {
               id: 2,
             },

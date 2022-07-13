@@ -8,6 +8,7 @@ import { CommentWithAuthor } from '../lib/prisma';
 
 const Comment = ({ comment }: { comment: CommentWithAuthor }) => {
   const [user] = useSharedState<User | null>('user');
+  const [isTruncated, setIsTruncated] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   useEffect(() => {
     setIsLiked(comment.likes?.some((l) => l.id === user?.id));
@@ -29,9 +30,16 @@ const Comment = ({ comment }: { comment: CommentWithAuthor }) => {
       <Image src={comment.author.imageURL} boxSize="24px" objectFit="fill" borderRadius="50px" />
       <Flex flex="1 1 auto" direction="column">
         <Text fontSize="12px" fontWeight={700} letterSpacing="0.4px">
-          {comment.author.username + (comment.author.username.includes('impostor') ? `_${comment.author.id}` : '')}
+          {comment.author.username + (comment.author.username.includes('impostor') ? `_${comment.author.id - 5}` : '')}
         </Text>
-        <Text fontSize="12px" letterSpacing="0.4px" color="#A19DAA" noOfLines={2} whiteSpace="normal">
+        <Text
+          fontSize="12px"
+          letterSpacing="0.4px"
+          color="#A19DAA"
+          onClick={() => setIsTruncated(false)}
+          noOfLines={isTruncated ? 2 : 0}
+          whiteSpace="normal"
+        >
           {comment.content}
         </Text>
         <HStack pt="8px">

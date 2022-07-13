@@ -44,7 +44,7 @@ const IndexPage = ({ creator }: { creator: UserWithClips }) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   try {
     const creator = await prisma.user.findFirst({
       where: { creator: true },
@@ -57,7 +57,7 @@ export const getStaticProps = async () => {
       },
     };
   } catch (e) {
-    console.log('getStaticProps caught -> ', e);
+    console.log('getServerSideProps caught -> ', e);
     return {
       props: {
         creator: null,
