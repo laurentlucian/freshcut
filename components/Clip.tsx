@@ -31,10 +31,12 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
     },
   );
   const videoRef = useRef<HTMLVideoElement>(null);
-  const isOn = useOnScreen(videoRef, '-500px');
+  const isOn = useOnScreen(videoRef, '-400px');
   useEffect(() => {
-    isOn ? videoRef.current.play() : videoRef.current.pause();
-    isOn && fetcher(`/api/clip/${clip.id}/add_view`);
+    if (!isOn) return videoRef.current.pause();
+    // isOn ? videoRef.current.play() : videoRef.current.pause();
+    videoRef.current.play();
+    fetcher(`/api/clip/${clip.id}/add_view`);
   }, [isOn]);
 
   const [inputFocus, setInputFocus] = useState(false);
@@ -66,9 +68,6 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
 
   const isLiked = data.likes.some((l) => l.id === user?.id);
   const onLike = async () => {
-    isLiked
-      ? mutate({ ...data, likes: [...data.likes.filter((u) => u.id !== user.id)] })
-      : mutate({ ...data, likes: [...data.likes, user] });
     await fetcher(`api/clip/${clip.id}/${isLiked ? 'dislike' : 'like'}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -76,6 +75,9 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
         userId: user.id,
       }),
     });
+    isLiked
+      ? mutate({ ...data, likes: [...data.likes.filter((u) => u.id !== user.id)] })
+      : mutate({ ...data, likes: [...data.likes, user] });
   };
 
   return (
