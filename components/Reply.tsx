@@ -49,7 +49,16 @@ const Reply = ({
           noOfLines={isTruncated ? 2 : 0}
           whiteSpace="normal"
         >
-          {reply.content}
+          {reply.content.includes('@') ? (
+            <>
+              <Text color="fresh.200" as="span">
+                {reply.content.split(' ').slice(0, 1)}{' '}
+              </Text>
+              {reply.content.split(' ').slice(1).join(' ')}
+            </>
+          ) : (
+            reply.content
+          )}
         </Text>
         <HStack pt="8px">
           <Text fontSize="11px" color="#8C8797">
