@@ -12,8 +12,7 @@ const IndexPage = ({ creator }: { creator: UserWithClips }) => {
   const [user, setUser] = useSharedState<User>('user', null);
 
   // creating a new user on every new page load
-  // alternatively, I was keeping track of session in the browser's localStorage,
-  // but it caused some bugs and I decided to keep it simpler instead
+  // alternatively, I could simply keep track of session in the browser's localStorage for this use case
   useEffect(() => {
     const create = async () => {
       const newUser = await fetcher('/api/user/new');

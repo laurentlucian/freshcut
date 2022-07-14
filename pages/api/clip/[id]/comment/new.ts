@@ -3,11 +3,9 @@ import { prisma } from '../../../../../lib/prisma';
 
 const handle = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  console.log('id', id);
-  const { content, authorId } = req.body;
-  console.log('authorId', authorId);
-  console.log('content', content);
+  const { content, authorId, commentId } = req.body;
   if (typeof id !== 'string') {
+    res.status(400).send('Missing ids');
     return;
   }
 
@@ -18,6 +16,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
         connect: { id: Number(id) },
       },
       author: { connect: { id: authorId } },
+      comment: commentId ? { connect: { id: commentId } } : undefined,
     },
   });
 

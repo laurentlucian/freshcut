@@ -10,7 +10,12 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const clip = await prisma.clip.findUnique({
     where: { id: Number(id) },
-    include: { comments: { include: { author: true, likes: true } }, likes: true },
+    include: {
+      comments: {
+        include: { author: true, likes: true, replies: { include: { author: true, likes: true } } },
+      },
+      likes: true,
+    },
   });
 
   if (!clip) {

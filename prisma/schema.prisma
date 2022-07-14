@@ -48,6 +48,10 @@ model Comment {
   authorId Int?
   clip     Clip?  @relation(fields: [clipId], references: [id])
   clipId   Int?
+
+  commentId Int?
+  comment   Comment?  @relation("Replies", fields: [commentId], references: [id])
+  replies   Comment[] @relation("Replies")
 }
 
 model Tag {

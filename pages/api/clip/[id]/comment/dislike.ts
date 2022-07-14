@@ -15,7 +15,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     if (!comment) {
-      res.status(404).send('Like not successful');
+      res.status(404).send('Dislike not successful');
       return;
     }
 

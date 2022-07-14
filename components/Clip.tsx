@@ -30,17 +30,29 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
       fallbackData: clip,
     },
   );
+  // play/pause video when it enters/exits viewport
   const videoRef = useRef<HTMLVideoElement>(null);
   const isOn = useOnScreen(videoRef, '-400px');
   useEffect(() => {
     if (!isOn) return videoRef.current.pause();
-    // isOn ? videoRef.current.play() : videoRef.current.pause();
     videoRef.current.play();
     fetcher(`/api/clip/${clip.id}/add_view`);
   }, [isOn]);
 
   const [inputFocus, setInputFocus] = useState(false);
   const [input, setInput] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  // whether a reply happens or not depends on this state
+  // rather than in the content of the input (by @username)
+  const [reply, setReply] = useState<CommentWithAuthor>(null);
+  const onReply = (comment: CommentWithAuthor, replyTo: User) => {
+    setReply(comment);
+    // implementing @username as a side effect here
+    // edge case: if user deletes @username from input, comment will still be a reply
+    setInput((prev) => '@' + replyTo.username + ' ' + prev);
+    inputRef.current.focus();
+  };
+
   const commentsRef = useRef<HTMLDivElement>(null);
   const scrollToLastMessage = (behavior: ScrollBehavior) => {
     const lastChild = commentsRef.current.lastElementChild;
@@ -59,11 +71,15 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
       body: JSON.stringify({
         content: input,
         authorId: user.id,
+        commentId: reply ? reply.id : null,
       }),
     });
     flushSync(() => mutate({ ...data, comments: [...data.comments, { ...res, author: user }] }));
     setInput('');
-    scrollToLastMessage('smooth');
+    if (!reply) {
+      scrollToLastMessage('smooth');
+    }
+    setReply(null);
   };
 
   const isLiked = data.likes.some((l) => l.id === user?.id);
@@ -117,13 +133,16 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
             </Text>
           </Text>
           <Stack ref={commentsRef} flex="1 1 auto" overflowY="auto" h="0px" spacing="12px" pb="6px" pr="5px">
-            {data.comments?.map((comment) => (
-              <Comment key={comment.id} comment={comment} />
-            ))}
+            {data.comments
+              ?.filter((c) => !c.commentId)
+              .map((comment) => (
+                <Comment key={comment.id} comment={comment} onReply={onReply} />
+              ))}
           </Stack>
           <HStack h="50px">
             <InputGroup>
               <Input
+                ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 variant="filled"

@@ -21,7 +21,13 @@ const userWithClips = Prisma.validator<Prisma.UserArgs>()({
 export type UserWithClips = Prisma.UserGetPayload<typeof userWithClips>;
 
 const commentWithAuthor = Prisma.validator<Prisma.CommentArgs>()({
-  include: { author: true, likes: true },
+  include: { author: true, likes: true, replies: { include: { author: true, likes: true } } },
 });
 
 export type CommentWithAuthor = Prisma.CommentGetPayload<typeof commentWithAuthor>;
+
+const replyWithAuthor = Prisma.validator<Prisma.CommentArgs>()({
+  include: { author: true, likes: true },
+});
+
+export type ReplyWithAuthor = Prisma.CommentGetPayload<typeof replyWithAuthor>;
