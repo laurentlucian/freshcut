@@ -148,6 +148,9 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
                 variant="filled"
                 fontSize="12px"
                 placeholder="Add a comment..."
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') onSend();
+                }}
                 borderRadius="20px"
                 bg="#28262C"
                 _focus={{ borderColor: 'fresh.200' }}
