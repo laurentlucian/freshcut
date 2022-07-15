@@ -9,6 +9,7 @@ Now, run `yarn dev` to start up the app.
 ### Stack 🏗
 
 - Typescript
+- React
 - Next.js
 - Chakra-ui
 - SWR
