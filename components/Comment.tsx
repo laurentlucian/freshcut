@@ -49,6 +49,7 @@ const Comment = ({
             onClick={() => setIsTruncated(false)}
             noOfLines={isTruncated ? 2 : 0}
             whiteSpace="normal"
+            wordBreak="break-word"
           >
             {comment.content}
           </Text>
