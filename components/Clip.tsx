@@ -155,17 +155,14 @@ const Clip = ({ clip }: { clip: Clip & { author: User; likes: User[] } }) => {
                 bg="#28262C"
                 _focus={{ borderColor: 'fresh.200' }}
                 onFocus={() => setInputFocus(true)}
-                onBlur={() => {
-                  onSend();
-                  setInputFocus(false);
-                }}
+                onBlur={() => setInputFocus(false)}
               />
               {input.length > 0 && (
                 <InputRightElement w="50px" pr="5px">
                   <IconButton
                     variant="ghost"
                     aria-label="send"
-                    onClick={onSend}
+                    onMouseDown={onSend}
                     icon={<Image boxSize="17px" src="/assets/send.svg" />}
                   />
                 </InputRightElement>
