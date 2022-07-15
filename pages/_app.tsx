@@ -1,5 +1,4 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { SWRConfig } from 'swr';
 import Fonts from '../lib/fonts';
 import React from 'react';
 import theme from 'lib/theme';
